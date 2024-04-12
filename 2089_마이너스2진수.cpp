@@ -8,7 +8,11 @@ int main() {
 	cin >> n;
 
 	vector<int> result;
-
+	
+	if (n == 0) {
+		cout << 0;
+		return 0;
+	}
 	while (n !=  0) {
 		if (n % -2 == 0) {
 			result.push_back(0);
