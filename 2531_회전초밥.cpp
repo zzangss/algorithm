@@ -20,23 +20,19 @@ int main() {
 
 	int kind = 0;
 	int max = 0;
-	int checkC = 0;
 
 	for (int i = 0; i < k; i++) {
 		check[v[i]]++;
-		if (v[i] == c) {
-			checkC++;
-		}
 		if (check[v[i]] == 1) {
 			kind++;
 		}
-
+		// 만약 처음에 c가 들어오면?
 	}
 
 	max = kind;
 
 	while (true) {
-		if (s >= n - 1) {
+		if (s >= n) {
 			break;
 		}
 		if (kind >= n + 1) {
@@ -46,9 +42,6 @@ int main() {
 		check[v[s]]--;
 		if (check[v[s]] == 0) {
 			kind--;
-		}
-		if (v[s] == c) {
-			checkC--;
 		}
 		s++;
 
@@ -62,12 +55,9 @@ int main() {
 		if (check[v[e]] == 1) {
 			kind++;
 		}
-		if (v[e] == c) {
-			checkC++;
-		}
 
 
-		if (checkC >= 1) {
+		if (check[c] >= 1) {
 			if (max < kind) {
 				max = kind;
 			}
