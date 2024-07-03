@@ -7,7 +7,7 @@
 using namespace std;
 
 int CCW(pair<ll, ll> a, pair<ll, ll> b, pair<ll, ll> c) {
-	int n = (b.first - a.first)*(c.second - a.second) - (b.second - a.second) * (c.first - a.first);
+	ll n = (b.first - a.first)*(c.second - a.second) - (b.second - a.second) * (c.first - a.first);
 	if (n < 0) return 1;
 	else if (n > 0) return -1;
 	else return 0;
@@ -19,7 +19,7 @@ int main() {
 
 	vector <ll> v(5,0);
 	vector<vector<ll>> xy(n, v);
-	int result = 0;
+	ll result = 0;
 
 	for (int i = 0; i < n; i++) {
 		cin >> xy[i][1] >> xy[i][2];
