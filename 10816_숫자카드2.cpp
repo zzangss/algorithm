@@ -1,67 +1,29 @@
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <algorithm>
-#include <vector>
-#include <cmath>
+#include<iostream>
+#include<algorithm>
+#include<vector>
 
 using namespace std;
 
-int lower_binary(int* arr, int target, int size) {
-    int mid, start, end;
-    start = 0, end = size - 1;
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
 
-    while (end > start) {
-        mid = (start + end) / 2;
-        if (arr[mid] >= target)
-            end = mid;
-        else start = mid + 1;
-    }
-    return end;
-}
+	int n, m, x;
+	cin >> n;
 
-int upper_binary(int* arr, int target, int size) {
-    int mid, start, end;
-    start = 0, end = size - 1;
+	vector<int> card(n);
 
-    while (end > start) {
-        mid = (start + end) / 2;
-        if (arr[mid] > target)
-            end = mid;
-        else start = mid + 1;
-    }
-    return end;
-}
+	for (int i = 0; i < n; i++) {
+		cin >> card[i];
+	}
 
-int main(void)
-{
-    int n, m, temp, target, lower, upper;
+	sort(card.begin(), card.end());
 
-    scanf("%d", &n);
-    int* m_arr = new int[n];
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &m_arr[i]);
-    }
-    sort(m_arr, m_arr + n);
+	cin >> m;
+	for (int i = 0; i < m; i++) {
+		cin >> x;
+		cout << upper_bound(card.begin(), card.end(), x) - lower_bound(card.begin(), card.end(), x) << " ";
+	}
 
-    scanf("%d", &m);
-    int* arr = new int[m];
-    int* result = new int[m];
-    for (int i = 0; i < m; i++) {
-        scanf("%d", &arr[i]);
-        result[i] = 0;
-    }
-
-    for (int i = 0; i < m; i++) {
-        lower = lower_binary(m_arr, arr[i], n);
-        upper = upper_binary(m_arr, arr[i], n);
-        if (upper == n - 1 && m_arr[n - 1] == arr[i])
-            upper++;
-        result[i] = upper - lower;
-    }
-
-    for (int i = 0; i < m; i++) {
-        printf("%d ", result[i]);
-    }
-    return 0;
+	return 0;
 }
