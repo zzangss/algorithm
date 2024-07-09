@@ -1,8 +1,6 @@
-//시간초과 코드
-
 #include<iostream>
 #include<algorithm>
-#include<map>
+#include<vector>
 
 using namespace std;
 
@@ -13,16 +11,19 @@ int main() {
 	int n, m, x;
 	cin >> n;
 	
-	map<int, int> card;
+	vector<int> card(n);
 
 	for (int i = 0; i < n; i++) {
-		cin >> x;
-		card[x]++;
+		cin >> card[i];
 	}
+
+	sort(card.begin(), card.end());
 
 	cin >> m;
 	for (int i = 0; i < m; i++) {
 		cin >> x;
-		cout << card[x] << " ";
+		cout << upper_bound(card.begin(), card.end(), x) - lower_bound(card.begin(), card.end(), x) << " ";
 	}
+
+	return 0;
 }
