@@ -1,61 +1,67 @@
-//시간 초과 이유를 모르겠음.
-
-#include<iostream>
-#include<algorithm>
-#include<vector>
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <algorithm>
+#include <vector>
+#include <cmath>
 
 using namespace std;
 
-int n, m, x;
-vector<int> card(n);
+int lower_binary(int* arr, int target, int size) {
+    int mid, start, end;
+    start = 0, end = size - 1;
 
-int lower_b(vector<int> card, int target) {
-	int s = 0, e = n-1;
-	int mid;
-
-	while (e > s) {
-		mid = (s + e) / 2;
-		if (card[mid] >= target) e = mid;
-		else s = mid + 1;
-	}
-	return e;
+    while (end > start) {
+        mid = (start + end) / 2;
+        if (arr[mid] >= target)
+            end = mid;
+        else start = mid + 1;
+    }
+    return end;
 }
 
-int upper_b(vector<int> card, int target) {
-	int s = 0, e = n - 1;
-	int mid;
+int upper_binary(int* arr, int target, int size) {
+    int mid, start, end;
+    start = 0, end = size - 1;
 
-	while (e > s) {
-		mid = (s + e) / 2;
-		if (card[mid] > target) e = mid;
-		else s = mid + 1;
-	}
-	return e;
+    while (end > start) {
+        mid = (start + end) / 2;
+        if (arr[mid] > target)
+            end = mid;
+        else start = mid + 1;
+    }
+    return end;
 }
 
-int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+int main(void)
+{
+    int n, m, temp, target, lower, upper;
 
-	cin >> n;
-	card.resize(n);
+    scanf("%d", &n);
+    int* m_arr = new int[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &m_arr[i]);
+    }
+    sort(m_arr, m_arr + n);
 
-	for (int i = 0; i < n; i++) {
-		cin >> card[i];
-	}
-	sort(card.begin(), card.end());
+    scanf("%d", &m);
+    int* arr = new int[m];
+    int* result = new int[m];
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &arr[i]);
+        result[i] = 0;
+    }
 
-	cin >> m;
-	for (int i = 0; i < m; i++) {
-		cin >> x;
-		int u = upper_b(card, x);
-		int l = lower_b(card, x);
-		if (u == n - 1 && card[n - 1] == x) {
-			u++;
-		}
-		cout << u - l << " ";
-	}
+    for (int i = 0; i < m; i++) {
+        lower = lower_binary(m_arr, arr[i], n);
+        upper = upper_binary(m_arr, arr[i], n);
+        if (upper == n - 1 && m_arr[n - 1] == arr[i])
+            upper++;
+        result[i] = upper - lower;
+    }
 
-	return 0;
+    for (int i = 0; i < m; i++) {
+        printf("%d ", result[i]);
+    }
+    return 0;
 }
