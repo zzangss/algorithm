@@ -36,26 +36,17 @@ int main() {
 }
 
 int binary_search(long num, int s, int e) {
-	bool check = false;
-	while (s <= e) {
-		int m = (s + e) / 2;
-		if (num == v[m]) {
-			check = true;
-			break;
-		}
-		else if (num > v[m]) {
-			s = m + 1;
-		}
-		else {
-			e = m - 1;
-		}
-	}
+	if (s > e) return 0;
 
-	if (check) {
+	int m = (s + e) / 2;
+
+	if (num == v[m]) {
 		return 1;
 	}
-	else {
-		return 0;
+	else if (num > v[m]) {
+		return binary_search(num, m + 1, e);
 	}
-
+	else {
+		return binary_search(num, s, m - 1);
+	}
 }
