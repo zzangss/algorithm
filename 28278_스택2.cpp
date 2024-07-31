@@ -1,5 +1,6 @@
 #include<iostream>
 #include<stack>
+
 using namespace std;
 
 int main() {
@@ -7,35 +8,35 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n, m, num;
-	stack<int> stack;
-	cin >> n;
+	int n; cin >> n;
+
+	stack<int> s;
+
 	for (int i = 0; i < n; i++) {
-		cin >> m;
-		switch (m) {
-		case 1:
-			cin >> num;
-			stack.push(num);
-			break;
-		case 2:
-			if (!stack.empty()) {
-				cout << stack.top() << endl;
-				stack.pop();
+		int order; cin >> order;
+		if (order == 1) {
+			int order2; cin >> order2;
+			s.push(order2);
+		}
+		else if (order == 2) {
+			if (s.empty()) {
+				cout << -1 << "\n";
 			}
-			else cout << -1 << endl;
-			break;
-		case 3:
-			cout << stack.size() << endl;
-			break;
-		case 4:
-			if (stack.empty()) cout << 1 << endl;
-			else cout << 0 << endl;
-			break;
-		case 5:
-			if (!stack.empty()) cout << stack.top() << endl;
-			else cout << -1 << endl;
-			break;
+			else {
+				cout << s.top() << "\n";
+				s.pop();
+			}
+		}
+		else if (order == 3) {
+			cout << s.size() << "\n";
+		}
+		else if (order == 4) {
+			if (s.empty()) cout << 1 << "\n";
+			else cout << 0 << "\n";
+		}
+		else if (order == 5) {
+			if (s.empty()) cout << -1 << "\n";
+			else cout << s.top() << "\n";
 		}
 	}
-	return 0;
 }
