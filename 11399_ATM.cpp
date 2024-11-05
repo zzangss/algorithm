@@ -8,8 +8,8 @@ int solve(const vector<int>& atm) {
 	int result = 0, sum = 0;
 
 	for (int i = 0; i < atm.size(); i++) {
-		result += sum + atm[i];
 		sum += atm[i];
+		result += sum;
 	}
 
 	return result;

@@ -9,73 +9,74 @@ int n, cnt = 0;
 int dx[4] = {1,-1,0,0};
 int dy[4] = {0,0,1,-1}; //상하좌우 움직이기 위한 배열
 vector<string>rgb; //띄어쓰기 없이 받기 때문에 string 자료형 사용
-
-vector<int>v;
 vector<vector <int>> check; // 2차원 벡터
 
+bool range(int x, int y) {
+	if (x >= 0 && x < n && y >= 0 && y < n) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
-void DFS(int nowx, int nowy) {
-	check[nowx][nowy] = 1;
-
+void DFS(int x, int y) {
 	for (int i = 0; i < 4; i++) {
-		int X = nowx + dx[i];
-		int Y = nowy + dy[i]; //다음으로 방문할 위치의 x,y값
+		int nx = x + dx[i];
+		int ny = y + dy[i];
 
-		if (X < 0 || X >= n || Y < 0 || Y >= n) continue; 
-		//사각형 테두리 범위 넘어가지 않도록 조정
-		
-		if (check[X][Y] == 0 && rgb[X][Y] == rgb[nowx][nowy]) {
-		//(방문하지 않음 && 현재 위치에서의 값 = 다음 위치에서의 값) 이면 DFS 수행
-			DFS(X, Y);
+		if (range(nx, ny) && !check[nx][ny] && rgb[x][y] == rgb[nx][ny]) {
+			check[nx][ny] = true;
+			DFS(nx, ny);
 		}
 	}
 }
+
+void rTog() {
+	for (int i = 0; i < n; i++) {
+		string temp = "";
+		for (int j = 0; j < n; j++) {
+			if (rgb[i][j] == 'R') {
+				temp += 'G';
+			}
+			else {
+				temp += rgb[i][j];
+			}
+		}
+		rgb[i] = temp;
+	}
+}
+
+int solve() {
+	int result = 0;
+	for (int i = 0; i < n; i++) {
+		for (int k = 0; k < n; k++) {
+			if (!check[i][k]) {
+				check[i][k] = true;
+				DFS(i, k);
+				result++;
+			}
+		}
+	}
+	return result;
+}
+
 int main() {
 	cin >> n;
 
-	v.resize(n, 0);
 	rgb.resize(n);
-	check.resize(n, v);	
+	check.resize(n,vector<int>(n,0));	
 
 	for (int i = 0; i < n; i++) {
-		cin >> rgb[i]; //기본 rgb sheet 입력. 
-	} 
-
-	for (int i = 0; i < n; i++) {
-		for (int k = 0; k < n; k++) {
-			if (check[i][k] == 0) { //방문하지 않은 위치만
-				DFS(i, k);
-				cnt++; 
-				//한 칸 방문이 끝나면 +1
-			}
-		}
+		cin >> rgb[i];
 	}
 
-	cout << cnt << " ";
+	// 일반적인 경우
+	cout << solve() << " ";
 
-
-	for (int i = 0; i < n; i++) {
-		for (int k = 0; k < n; k++) { // 적록색약 rgb sheet 입력
-			if (rgb[i][k] == 'G') {
-				rgb[i][k] = 'R';
-			}
-		}
-	}
-
-	check.clear();
-	check.resize(n, v); //원소 0으로 초기화
-	cnt = 0;
-	for (int i = 0; i < n; i++) {
-		for (int k = 0; k < n; k++) {
-			if (check[i][k] == 0) {
-				DFS(i, k);
-				cnt++;
-			}
-		}
-	}
-
-	cout << cnt;
-
-
-
+	// 적록색약인 경우
+	check.assign(n, vector<int>(n,false)); //check의 값을 다시 0으로 
+	rTog();
+	cout << solve();
+	
 }
