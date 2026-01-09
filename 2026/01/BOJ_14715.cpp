@@ -5,43 +5,26 @@
 
 using namespace std;
 
-vector<int> makePrime(int n){
-    vector<bool> prime_table(n+1, true);
-    vector<int> prime;
-
+// trial prime 개념 이용 
+int factorize(int n){
+    int cnt = 0;
     for(int i = 2; i * i <= n; i++){
-        if(prime_table[i]){
-            for(int j = i * i; j <= n; j += i){
-                prime_table[j] = false;
-            }
+        while(n % i == 0){
+            cnt++;
+            n /= i;
         }
     }
 
-    for(int i = 2; i <= n; i++){
-        if(prime_table[i]){
-            prime.push_back(i);
-        }
+    if(n > 1){
+        cnt++;
     }
-    
-    return prime;
+
+    return cnt;
 }
 
 int solve(int n){
-    // 1. 소수 집합 구하기 
-    vector<int> prime;
-    prime = makePrime(n);
 
-    // 2. 정수 n의 소인수의 개수 구하기 
-    int idx = 0, cnt = 0;
-    while(n != 1){
-        if(n % prime[idx] == 0){
-            n /= prime[idx];
-            cnt++;
-        }
-        else{
-            idx++;
-        }
-    }
+    int cnt = factorize(n);
 
     // 3. log2(cnt)하여 2^(k-1) < log2(cnt) <= 2^(k) 이면 result는 k (분할할 때 이진트리 형태로 분할됨.)
     if(cnt == 1){
