@@ -1,3 +1,5 @@
+// boj 16563 어려운 소인수분해
+
 #include<iostream>
 #include<vector>
 #define MAX 5000001
